@@ -35,4 +35,4 @@ RUN dnf install git x11vnc xorg-x11-xinit xorg-x11-server-Xvfb xfce4-terminal xo
 WORKDIR / 
 COPY gpu_runner.sh /usr/local/bin/
 CMD ["gpu_runner.sh"] 
-EXPOSE 7878
+EXPOSE 5900

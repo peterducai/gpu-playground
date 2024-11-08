@@ -5,7 +5,7 @@ ENV XDG_RUNTIME_DIR=/tmp
 ENV WAYLAND_DISPLAY=wayland-0
 ENV XAUTHLOCALHOSTNAME=localhost
 
-RUN dnf install git x11vnc xorg-x11-xinit xorg-x11-server-Xvfb xfce4-terminal xorg-x11-drv-openchrome vim xscreensaver blender tigervnc -y && dnf clean all -y
+RUN dnf install wayvnc weston sway blender -y && dnf clean all -y
 
 #wayVNC for wayland
 # RUN dnf install -y meson gcc ninja-build pkg-config egl-wayland egl-wayland-devel \

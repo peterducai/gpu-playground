@@ -1,0 +1,27 @@
+FROM registry.fedoraproject.org/fedora 
+
+ENV DISPLAY=:0
+ENV XDG_RUNTIME_DIR=/tmp
+ENV WAYLAND_DISPLAY=wayland-0
+ENV XAUTHLOCALHOSTNAME=localhost
+
+# RUN dnf install wayvnc blender openssl openssh iproute -y
+
+RUN dnf -y install wayvnc weston blender openssl openssh iproute systemd && dnf clean all && \
+  (cd /lib/systemd/system/sysinit.target.wants/ ; for i in * ; do [ $i == systemd-tmpfiles-setup.service ] || rm -f $i ; done) ; \
+  rm -f /lib/systemd/system/multi-user.target.wants/* ;\
+  rm -f /etc/systemd/system/*.wants/* ;\
+  rm -f /lib/systemd/system/local-fs.target.wants/* ; \
+  rm -f /lib/systemd/system/sockets.target.wants/*udev* ; \
+  rm -f /lib/systemd/system/sockets.target.wants/*initctl* ; \
+  rm -f /lib/systemd/system/basic.target.wants/* ;\
+  rm -f /lib/systemd/system/anaconda.target.wants/*
+
+VOLUME ["/sys/fs/cgroup"]
+
+
+WORKDIR / 
+COPY gpu_runner.sh /usr/local/bin/
+CMD ["/sbin/init"]
+RUN ["/usr/local/bin/gpu_runner.sh"] 
+EXPOSE 5900
